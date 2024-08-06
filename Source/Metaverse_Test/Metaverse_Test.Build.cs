@@ -12,11 +12,8 @@ public class Metaverse_Test : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-<<<<<<< Updated upstream
-=======
 		PublicIncludePaths.AddRange(new string[] { "Metaverse_Test" });
 
->>>>>>> Stashed changes
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		
