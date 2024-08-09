@@ -7,19 +7,33 @@ APaperZDCharacter_Sample::APaperZDCharacter_Sample(){
 
 }
 
-int APaperZDCharacter_Sample::GetHP(){return EntityInfo.Hp;}
+void APaperZDCharacter_Sample::InitializeStatus(int H, int W, int C, int D, int F){
+	Humanity = H;
+	Wisdom = W;
+	Courtesy = C;
+	Desire = D;
+	Fortune = F;
 
-int APaperZDCharacter_Sample::GetMP(){return EntityInfo.Mp;}
+	Hp = D + F + 18;
+	Mp = H + C + W + 6;
+}
+
+int APaperZDCharacter_Sample::GetHP(){return Hp;}
+
+int APaperZDCharacter_Sample::GetMP(){return Mp;}
 
 void APaperZDCharacter_Sample::SetHP(int HpMount){
+	Hp += HpMount;
 }
 
 void APaperZDCharacter_Sample::SetMP(int MpCost){
+	Mp += MpCost;
 }
 
-void APaperZDCharacter_Sample::BeginPlay()
-{
-	Super::BeginPlay();
+bool APaperZDCharacter_Sample::IsDead(){
+	int CurHp = GetHP();
 
+	if (CurHp <= 0) return true;
 
+	return false;
 }

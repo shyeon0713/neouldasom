@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "PaperZDCharacter.h"
-#include "InfoStruct.h"
 #include "PaperZDCharacter_Sample.generated.h"
 
 /**
@@ -15,11 +14,29 @@ class METAVERSE_TEST_API APaperZDCharacter_Sample : public APaperZDCharacter
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(EditAnywhere)
-	FEntityInfo EntityInfo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Humanity; //인심
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Desire; //의지
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Courtesy; //예절
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Wisdom; //지혜
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Fortune; //천운
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Hp; //체력
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Mp; //도력
 
 public:
 	APaperZDCharacter_Sample();
+
+	//Initialize: Function for Initialize information
+	UFUNCTION(BlueprintCallable, Category = "Initialize")
+	void InitializeStatus(int H, int W, int C, int D, int F);
 
 	//GetInfo: Function for get entities fluctuating information
 	UFUNCTION(BlueprintCallable, Category = "GetInfo")
@@ -33,5 +50,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "SetInfo")
 	void SetMP(int MpCost);
 
-	virtual void BeginPlay() override;
+	//Status: Function for get entities Status or setmovement
+	UFUNCTION(BlueprintCallable, Category = "Status")
+	bool IsDead();
 };
