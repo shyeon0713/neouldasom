@@ -7,15 +7,15 @@ APaperZDCharacter_Sample::APaperZDCharacter_Sample(){
 
 }
 
-void APaperZDCharacter_Sample::InitializeStatus(int H, int W, int C, int D, int F){
+void APaperZDCharacter_Sample::InitializeInfo(int H, int D, int C, int W, int F){
 	Humanity = H;
-	Wisdom = W;
-	Courtesy = C;
 	Desire = D;
+	Courtesy = C;
+	Wisdom = W;
 	Fortune = F;
 
-	Hp = D + F + 18;
-	Mp = H + C + W + 6;
+	Hp = Desire + Fortune + 18;
+	Mp = Humanity + Courtesy + Wisdom + 6;
 }
 
 int APaperZDCharacter_Sample::GetHP(){return Hp;}
@@ -23,17 +23,14 @@ int APaperZDCharacter_Sample::GetHP(){return Hp;}
 int APaperZDCharacter_Sample::GetMP(){return Mp;}
 
 void APaperZDCharacter_Sample::SetHP(int HpMount){
-	Hp += HpMount;
 }
 
 void APaperZDCharacter_Sample::SetMP(int MpCost){
-	Mp += MpCost;
 }
 
-bool APaperZDCharacter_Sample::IsDead(){
-	int CurHp = GetHP();
+void APaperZDCharacter_Sample::BeginPlay()
+{
+	Super::BeginPlay();
 
-	if (CurHp <= 0) return true;
 
-	return false;
 }

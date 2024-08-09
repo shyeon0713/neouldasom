@@ -15,17 +15,39 @@ void ABattleSystem::BeginPlay(){
 	Super::BeginPlay();
 
 	while (!IsBattleOver){
-
+		RunSystem();
 	}
 }
 
-void ABattleSystem::IsEndGame(bool isDead)
+void ABattleSystem::RunSystem()
 {
+}
+
+void ABattleSystem::IsEndGame(bool isDead){
 	if (isDead == true) {
 		IsBattleOver = true;
 	}
 }
 
-void ABattleSystem::AttackSkill(APaperZDCharacter_Sample* Player, APaperZDCharacter_Sample* Monster)
+void ABattleSystem::BattleTurnPlayer()
 {
+}
+
+void ABattleSystem::BattleTurnEnemy()
+{
+}
+
+void ABattleSystem::AttackSkill(APaperZDCharacter_Sample* Player, APaperZDCharacter_Sample* Monster){
+}
+
+void ABattleSystem::DepenseSkill(APaperZDCharacter_Sample* SelfEntity){
+}
+
+void ABattleSystem::HealSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity){
+}
+
+void ABattleSystem::SupportSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity){
+}
+
+void ABattleSystem::PracticalSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity){
 }

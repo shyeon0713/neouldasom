@@ -26,7 +26,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsBattleOver;
 
+	void RunSystem();
 	void IsEndGame(bool isDead);
 
-	void AttackSkill(APaperZDCharacter_Sample* Player, APaperZDCharacter_Sample*Monster);
+	void BattleTurnPlayer();
+	void BattleTurnEnemy();
+
+	void AttackSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
+	void DepenseSkill(APaperZDCharacter_Sample* SelfEntity);
+	void HealSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
+	void SupportSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
+	void PracticalSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
 };
