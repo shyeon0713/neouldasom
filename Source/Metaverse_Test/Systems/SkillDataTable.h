@@ -23,9 +23,10 @@ struct FSkillInfoStruct :public FTableRowBase {
 	GENERATED_BODY()
 
 public:
-	FSkillInfoStruct() : SkillName("name"), Amount(0), MpCost(0), Detail("Detail"), SkillType(1)
-		{}
+	FSkillInfoStruct() : KeyValue("KV_0"), SkillName("SkillName"), Amount(0), MpCost(0), Detail("Detail"), SkillType(5) {}
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString KeyValue;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FString SkillName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
@@ -36,4 +37,6 @@ public:
 	FString Detail;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	TEnumAsByte<SkillType> SkillType;
+
+
 };

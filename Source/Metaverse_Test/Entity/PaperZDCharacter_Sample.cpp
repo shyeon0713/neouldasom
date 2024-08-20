@@ -23,14 +23,14 @@ int APaperZDCharacter_Sample::GetHP(){return Hp;}
 int APaperZDCharacter_Sample::GetMP(){return Mp;}
 
 void APaperZDCharacter_Sample::SetHP(int HpMount){
+	Hp += HpMount;
 }
 
 void APaperZDCharacter_Sample::SetMP(int MpCost){
+	Mp += MpCost;
 }
 
 void APaperZDCharacter_Sample::BeginPlay()
 {
 	Super::BeginPlay();
-
-
 }

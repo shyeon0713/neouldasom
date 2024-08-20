@@ -4,19 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "PaperZDCharacter.h"
-#include "InfoStruct.h"
 #include "PaperZDCharacter_Sample.generated.h"
 
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class METAVERSE_TEST_API APaperZDCharacter_Sample : public APaperZDCharacter
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(EditAnywhere)
-	FEntityInfo EntityInfo;
 
 public:
 	APaperZDCharacter_Sample();
@@ -39,6 +36,7 @@ public:
 	int Mp; //µµ·Â
 
 	//Initialize: Function for initialize entities information
+	UFUNCTION(BlueprintCallable, Category = "Initialize")
 	void InitializeInfo(int H, int D, int C, int W, int F);
 
 	//GetInfo: Function for get entities fluctuating information

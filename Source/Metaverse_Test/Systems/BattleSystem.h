@@ -5,9 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "../Entity/PaperZDCharacter_Sample.h"
+#include "SkillDataTable.h"
 #include "BattleSystem.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class METAVERSE_TEST_API ABattleSystem : public AActor
 {
 	GENERATED_BODY()
@@ -20,8 +21,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//Data for Battle System
+	int BattleRound;
 	int TotalDamage;
+	int DepensedDamage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsBattleOver;
@@ -32,9 +35,21 @@ protected:
 	void BattleTurnPlayer();
 	void BattleTurnEnemy();
 
-	void AttackSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
-	void DepenseSkill(APaperZDCharacter_Sample* SelfEntity);
-	void HealSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
-	void SupportSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
-	void PracticalSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity);
+	//ReadSkillData
+	UFUNCTION(BlueprintCallable, Category = "Data")
+	void ReadSkillData();
+	UPROPERTY()
+	TArray<FSkillInfoStruct> NatureSkillData;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+	void AttackSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill);
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+	void DepenseSkill(APaperZDCharacter_Sample* SelfEntity, FSkillInfoStruct Skill);
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+	void HealSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill);
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+	void SupportSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill);
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+	void PracticalSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill);
 };

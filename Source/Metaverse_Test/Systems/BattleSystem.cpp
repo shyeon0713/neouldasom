@@ -7,13 +7,14 @@
 ABattleSystem::ABattleSystem(){
 	TotalDamage = 0;
 	IsBattleOver = false;
-
+	BattleRound = 1;
 }
 
 // Called when the game starts or when spawned
 void ABattleSystem::BeginPlay(){
 	Super::BeginPlay();
-
+	
+	ReadSkillData();
 	while (!IsBattleOver){
 		RunSystem();
 	}
@@ -21,6 +22,10 @@ void ABattleSystem::BeginPlay(){
 
 void ABattleSystem::RunSystem()
 {
+	BattleRound += 1;
+	BattleTurnPlayer();
+	BattleTurnEnemy();
+	DepensedDamage = 0;
 }
 
 void ABattleSystem::IsEndGame(bool isDead){
@@ -29,25 +34,41 @@ void ABattleSystem::IsEndGame(bool isDead){
 	}
 }
 
-void ABattleSystem::BattleTurnPlayer()
-{
+void ABattleSystem::BattleTurnPlayer(){
+
 }
 
 void ABattleSystem::BattleTurnEnemy()
 {
 }
 
-void ABattleSystem::AttackSkill(APaperZDCharacter_Sample* Player, APaperZDCharacter_Sample* Monster){
+void ABattleSystem::ReadSkillData(){
+
 }
 
-void ABattleSystem::DepenseSkill(APaperZDCharacter_Sample* SelfEntity){
+
+void ABattleSystem::AttackSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill){
+	int cost = Skill.MpCost;
+	int damage = Skill.Amount;
+
+	SelfEntity->SetMP(-cost);
+	OtherEntity->SetHP(-damage);
 }
 
-void ABattleSystem::HealSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity){
+void ABattleSystem::DepenseSkill(APaperZDCharacter_Sample* SelfEntity, FSkillInfoStruct Skill){
+	
 }
 
-void ABattleSystem::SupportSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity){
+void ABattleSystem::HealSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill){
+	int cost = 0 - Skill.MpCost;
+	int HealHp = Skill.Amount;
+
+	SelfEntity->SetMP(-cost);
+	SelfEntity->SetHP(HealHp);
 }
 
-void ABattleSystem::PracticalSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity){
+void ABattleSystem::SupportSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill){
+}
+
+void ABattleSystem::PracticalSkill(APaperZDCharacter_Sample* SelfEntity, APaperZDCharacter_Sample* OtherEntity, FSkillInfoStruct Skill){
 }
