@@ -19,6 +19,9 @@ protected:
 	int DepenseMagicPoint;
 	int SomaticMagicPoint;
 	int NatureMagicPoint;
-	int OrieantalMedicinePoint;
+	int OrientalMedicinePoint;
 	int ExplorationMagicPoint;
+
+	UFUNCTION(BlueprintCallable, Category = "Initialize")
+	void IniTializeSubjectSkills(int B, int D, int S, int N, int O, int E);
 };

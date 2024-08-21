@@ -11,7 +11,7 @@
  */
 
 UENUM()
-enum SkillType : uint8 {
+enum SkillType {
 	Attack,
 	Depense,
 	Heal,
@@ -24,7 +24,7 @@ struct FSkillInfo : public FTableRowBase{
 	GENERATED_BODY()
 
 public:
-	FSkillInfo() : KeyValue("KV_0"), SkillName("SkillName"), Amount(0), MpCost(0), Detail("Detail"), SkillType(5) {}
+	FSkillInfo() : KeyValue("KV_0"), SkillName("SkillName"), Amount(0), MpCost(0), Detail("Detail"), SkillType(4) {}
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FString KeyValue;

@@ -6,7 +6,19 @@
 #include "GameFramework/Actor.h"
 #include "../Character/CharacterBase.h"
 #include "SkillDataTable.h"
+#include "SkillSystem.h"
 #include "BattleSystem.generated.h"
+
+
+UENUM()
+enum SkillSubject{
+	BasicMagic,
+	DepenseMagic,
+	ExplorationMagic,
+	NatureMagic,
+	OrientalMedecine,
+	SomaticMagic
+};
 
 UCLASS()
 class METAVERSE_TEST_API ABattleSystem : public AActor
@@ -21,7 +33,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int TotalDamage;
+	int TotalDamage; //Total Monster's Damage
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsBattleOver;
@@ -32,10 +44,18 @@ protected:
 	void RunSystem();
 	void IsEndGame(bool isDead);
 
+	UFUNCTION(BlueprintCallable, Category = "SystemSet")
+	void SetBattleEntities(ACharacterBase* Entity1, ACharacterBase* Entity2);
+	SkillSystem LoadSkillSystem;
+
+	//Set Battle turn
 	void BattleTurnPlayer();
 	void BattleTurnEnemy();
 
-	//Skill
+	ACharacterBase* SkillSendEntity;
+	ACharacterBase* SkillReceiveEntity;
+
+	//Skill DataTable loader
 	void SkillDataLoader();
 
 	//Save SkillDataTable
@@ -46,18 +66,18 @@ protected:
 	UDataTable* MedecineSkillData;
 	UDataTable* SomaticSkillData;
 
-	//Test DatatableLoading
-	UFUNCTION(BlueprintCallable, Category = "Test")
-	void SkillDataTestPrint(int Subject, int RowNum);
+	//Save CurSkillData
+	FSkillInfo* CurSkill;
 
+	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void AttackSkill(ACharacterBase* SelfEntity, ACharacterBase* OtherEntity, FSkillInfo Skill);
-	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void DepenseSkill(ACharacterBase* SelfEntity, FSkillInfo Skill);
-	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void HealSkill(ACharacterBase* SelfEntity, ACharacterBase* OtherEntity, FSkillInfo Skill);
-	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void SupportSkill(ACharacterBase* SelfEntity, ACharacterBase* OtherEntity, FSkillInfo Skill);
-	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void PracticalSkill(ACharacterBase* SelfEntity, ACharacterBase* OtherEntity, FSkillInfo Skill);
+	void SkillSystem(SkillSubject Subject, int RowNum);
+
+	void AttackSkill();
+	void DepenseSkill();
+	void HealSkill();
+	void SupportSkill();
+	void PracticalSkill();
+
+	//
 };
