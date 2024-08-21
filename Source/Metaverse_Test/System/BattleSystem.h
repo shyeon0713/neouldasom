@@ -35,6 +35,21 @@ protected:
 	void BattleTurnPlayer();
 	void BattleTurnEnemy();
 
+	//Skill
+	void SkillDataLoader();
+
+	//Save SkillDataTable
+	UDataTable* BasicSkillData;
+	UDataTable* DepenseSkillData;
+	UDataTable* ExplorationSkillData;
+	UDataTable* NatureSkillData;
+	UDataTable* MedecineSkillData;
+	UDataTable* SomaticSkillData;
+
+	//Test DatatableLoading
+	UFUNCTION(BlueprintCallable, Category = "Test")
+	void SkillDataTestPrint(int Subject, int RowNum);
+
 	UFUNCTION(BlueprintCallable, Category = "Battle")
 	void AttackSkill(ACharacterBase* SelfEntity, ACharacterBase* OtherEntity, FSkillInfo Skill);
 	UFUNCTION(BlueprintCallable, Category = "Battle")
