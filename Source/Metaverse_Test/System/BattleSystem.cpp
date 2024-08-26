@@ -26,10 +26,13 @@ void ABattleSystem::IsEndGame(bool isDead)
 {
 }
 
-void ABattleSystem::SetBattleEntities(ACharacterBase* Entity1, ACharacterBase* Entity2)
-{
-	SkillSendEntity = Entity1;
+void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase* Entity2){
+	PlayerEntity = Entity1;
 	SkillReceiveEntity = Entity2;
+
+	if (PlayerEntity == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Initialize Failed!"))
+	}
 }
 
 void ABattleSystem::BattleTurnPlayer()
@@ -49,7 +52,9 @@ void ABattleSystem::SkillDataLoader(){
 	SomaticSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_SomaticMagic.DT_SomaticMagic"));
 }
 
-void ABattleSystem::SkillSystem(SkillSubject Subject, int RowNum){
+void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
+	SkillClass = Subject;
+	
 	FName SkillNum = FName(*(FString::FromInt(RowNum)));
 	static const FString SkillDataContextString(TEXT("SkillTableContext"));
 
@@ -77,7 +82,6 @@ void ABattleSystem::SkillSystem(SkillSubject Subject, int RowNum){
 		UE_LOG(LogTemp, Warning, TEXT("Subject Not Found!"))
 		break;
 	}
-
 	UE_LOG(LogTemp, Warning, TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType);
 
 	switch (CurSkill->SkillType)
@@ -104,57 +108,40 @@ void ABattleSystem::SkillSystem(SkillSubject Subject, int RowNum){
 }
 
 void ABattleSystem::AttackSkill(){
-	int cost = CurSkill->MpCost;
-	int damage = CurSkill->Amount;
-
-	if (cost < 0) {
-		cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	}
-
-	SkillSendEntity->SetMP(-cost);
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
+	int damage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
+	
+	PlayerEntity->JudgmentSubject(SkillClass);
+	PlayerEntity->SetHP(-cost);
 	SkillReceiveEntity->SetHP(-damage);
 }
 
 void ABattleSystem::DepenseSkill(){
-	int cost = CurSkill->MpCost;
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 	
-	if (cost < 0) {
-		cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	}
-
-	SkillSendEntity->SetMP(-cost);
+	PlayerEntity->JudgmentSubject(SkillClass);
+	PlayerEntity->SetMP(-cost);
 }
 
 void ABattleSystem::HealSkill(){
-	int cost = CurSkill->MpCost;
-	int healAmount = CurSkill->Amount;
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
+	int healAmount = LoadSkillSystem.AmountExceptionHandling(CurSkill);
 
-	if (cost < 0) {
-		cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	}
-
-	SkillSendEntity->SetMP(-cost);
+	PlayerEntity->JudgmentSubject(SkillClass);
+	PlayerEntity->SetMP(-cost);
 	SkillReceiveEntity->SetHP(healAmount);
 }
 
 void ABattleSystem::SupportSkill(){
-	int cost = CurSkill->MpCost;
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 
-	if (cost < 0) {
-		cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	}
-
-	SkillSendEntity->SetMP(-cost);
+	PlayerEntity->JudgmentSubject(SkillClass);
+	PlayerEntity->SetMP(-cost);
 }
 
 void ABattleSystem::PracticalSkill(){
-	int cost = CurSkill->MpCost;
-	
-	if (cost < 0) {
-		cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	}
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 
-	SkillSendEntity->SetMP(-cost);
+	PlayerEntity->JudgmentSubject(SkillClass);
+	PlayerEntity->SetMP(-cost);
 }
-
-

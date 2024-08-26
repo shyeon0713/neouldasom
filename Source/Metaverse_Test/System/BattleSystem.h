@@ -5,20 +5,21 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "../Character/CharacterBase.h"
+#include "../Character/PlayerCharacter.h"
 #include "SkillDataTable.h"
 #include "SkillSystem.h"
 #include "BattleSystem.generated.h"
 
 
-UENUM()
-enum SkillSubject{
-	BasicMagic,
-	DepenseMagic,
-	ExplorationMagic,
-	NatureMagic,
-	OrientalMedecine,
-	SomaticMagic
-};
+//UENUM()
+//enum SkillSubject{
+//	BasicMagic,
+//	DepenseMagic,
+//	ExplorationMagic,
+//	NatureMagic,
+//	OrientalMedecine,
+//	SomaticMagic
+//};
 
 UCLASS()
 class METAVERSE_TEST_API ABattleSystem : public AActor
@@ -45,14 +46,14 @@ protected:
 	void IsEndGame(bool isDead);
 
 	UFUNCTION(BlueprintCallable, Category = "SystemSet")
-	void SetBattleEntities(ACharacterBase* Entity1, ACharacterBase* Entity2);
+	void SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase* Entity2);
 	SkillSystem LoadSkillSystem;
 
 	//Set Battle turn
 	void BattleTurnPlayer();
 	void BattleTurnEnemy();
 
-	ACharacterBase* SkillSendEntity;
+	APlayerCharacter* PlayerEntity;
 	ACharacterBase* SkillReceiveEntity;
 
 	//Skill DataTable loader
@@ -67,11 +68,12 @@ protected:
 	UDataTable* SomaticSkillData;
 
 	//Save CurSkillData
+	SubjectClass SkillClass;
 	FSkillInfo* CurSkill;
 
 	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void SkillSystem(SkillSubject Subject, int RowNum);
+	void SkillSystem(SubjectClass Subject, int RowNum);
 
 	void AttackSkill();
 	void DepenseSkill();

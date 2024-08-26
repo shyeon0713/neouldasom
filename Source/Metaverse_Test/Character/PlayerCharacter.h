@@ -9,6 +9,8 @@
 /**
  * 
  */
+
+
 UCLASS()
 class METAVERSE_TEST_API APlayerCharacter : public ACharacterBase
 {
@@ -22,6 +24,10 @@ protected:
 	int OrientalMedicinePoint;
 	int ExplorationMagicPoint;
 
+public:
 	UFUNCTION(BlueprintCallable, Category = "Initialize")
-	void IniTializeSubjectSkills(int B, int D, int S, int N, int O, int E);
+	void InitializeSubjectSkills(int B, int D, int S, int N, int O, int E);
+
+	//Judgment
+	bool JudgmentSubject(SubjectClass SkillSubject);
 };

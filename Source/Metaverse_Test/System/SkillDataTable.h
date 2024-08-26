@@ -9,6 +9,15 @@
 /**
  * 
  */
+UENUM()
+enum SubjectClass {
+	BasicMagic,
+	DepenseMagic,
+	ExplorationMagic,
+	NatureMagic,
+	OrientalMedecine,
+	SomaticMagic
+};
 
 UENUM()
 enum SkillType {

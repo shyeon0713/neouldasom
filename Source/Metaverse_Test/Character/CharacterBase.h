@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "PaperZDCharacter.h"
+#include "../System/SkillDataTable.h"
+#include "../System/YutJudgmentSystem.h"
 #include "CharacterBase.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class METAVERSE_TEST_API ACharacterBase : public APaperZDCharacter
 {
@@ -50,4 +53,7 @@ public:
 	void SetMP(int MpCost);
 
 	virtual void BeginPlay() override;
+
+	//
+	SubjectClass* SkillClass;
 };
