@@ -35,13 +35,12 @@ void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase*
 	}
 }
 
-void ABattleSystem::BattleTurnPlayer()
-{
+void ABattleSystem::BattleTurnPlayer(){
+	IsPlayerTurn = true;
+	IsPlayerSelectSkill = false;
 }
 
-void ABattleSystem::BattleTurnEnemy()
-{
-}
+void ABattleSystem::BattleTurnEnemy(){ IsPlayerTurn = false; }
 
 void ABattleSystem::SkillDataLoader(){
 	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_BasicMagic.DT_BasicMagic"));

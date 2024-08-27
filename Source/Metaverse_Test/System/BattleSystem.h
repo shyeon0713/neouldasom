@@ -10,17 +10,6 @@
 #include "SkillSystem.h"
 #include "BattleSystem.generated.h"
 
-
-//UENUM()
-//enum SkillSubject{
-//	BasicMagic,
-//	DepenseMagic,
-//	ExplorationMagic,
-//	NatureMagic,
-//	OrientalMedecine,
-//	SomaticMagic
-//};
-
 UCLASS()
 class METAVERSE_TEST_API ABattleSystem : public AActor
 {
@@ -52,6 +41,8 @@ protected:
 	//Set Battle turn
 	void BattleTurnPlayer();
 	void BattleTurnEnemy();
+	bool IsPlayerTurn;
+	bool IsPlayerSelectSkill;
 
 	APlayerCharacter* PlayerEntity;
 	ACharacterBase* SkillReceiveEntity;
@@ -73,7 +64,7 @@ protected:
 
 	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
-	void SkillSystem(SubjectClass Subject, int RowNum);
+	virtual void SkillSystem(SubjectClass Subject, int RowNum);
 
 	void AttackSkill();
 	void DepenseSkill();
