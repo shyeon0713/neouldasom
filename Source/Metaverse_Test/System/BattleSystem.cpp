@@ -113,6 +113,8 @@ void ABattleSystem::AttackSkill(){
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetHP(-cost);
 	SkillReceiveEntity->SetHP(-damage);
+
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Cyan, TEXT(""));
 }
 
 void ABattleSystem::DepenseSkill(){

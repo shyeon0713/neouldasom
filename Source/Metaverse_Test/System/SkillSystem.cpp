@@ -138,6 +138,7 @@ int SkillSystem::SetBySubjectClass()
 
 int SkillSystem::SetByJudgement()
 {
+	//YutJudgmentSystem::YutJudgingAmount(2);
 	return 0;
 }
 

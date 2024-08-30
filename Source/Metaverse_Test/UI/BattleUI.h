@@ -16,5 +16,10 @@ class METAVERSE_TEST_API UBattleUI : public UUserWidget
 	GENERATED_BODY()
 	
 protected:
+	class ABattleSystem* LoadedSystem;
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void CallSystem();
+
+	UFUNCTION(BlueprintCallable, Category = "SkillSelect")
 	void MappingSkills(SubjectClass Subject, int RowNum);
 };

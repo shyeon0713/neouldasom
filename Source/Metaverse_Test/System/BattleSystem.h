@@ -58,13 +58,14 @@ protected:
 	UDataTable* MedecineSkillData;
 	UDataTable* SomaticSkillData;
 
+public:
 	//Save CurSkillData
 	SubjectClass SkillClass;
 	FSkillInfo* CurSkill;
 
 	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
-	virtual void SkillSystem(SubjectClass Subject, int RowNum);
+	void SkillSystem(SubjectClass Subject, int RowNum);
 
 	void AttackSkill();
 	void DepenseSkill();
