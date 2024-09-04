@@ -1,0 +1,66 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "System/YutJudgmentSystem.h"
+
+YutJudgmentSystem::YutJudgmentSystem() {
+	SucceedCounter = 0;
+}
+
+YutJudgmentSystem::~YutJudgmentSystem()
+{
+}
+
+// T: 배면 40% F: 등면 60% 
+bool YutJudgmentSystem::YutRolling() {
+	int ramdomPercentage = FMath::Rand() % 10;
+
+	if (ramdomPercentage < 5) {
+		UE_LOG(LogTemp, Warning, TEXT("Fail! %d"), ramdomPercentage)
+		return false;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Success! %d"), ramdomPercentage)
+		SucceedCounter += 1;
+		return true;
+	}
+}
+
+bool YutJudgmentSystem::YutJudgingDefault(int JudgeValue) {
+	UE_LOG(LogTemp, Warning, TEXT("Judge Start: value %d"), JudgeValue)
+	Yut_D1 = YutRolling();
+	Yut_D2 = YutRolling();
+	Yut_Cri = YutRolling();
+	Yut_Fum = YutRolling();
+
+	//모두다 등면이면 모: 5로 할당
+	if (SucceedCounter == 0) {
+		SucceedCounter = 5;
+	}
+
+	if (SucceedCounter == 1 && Yut_Fum) {
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, TEXT("Judge Fail!"));
+		return false;
+	}
+	else if (SucceedCounter > JudgeValue) {
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, TEXT("Judge Fail!"));
+		return false;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Cyan, TEXT("Judge Success!"));
+	return true;
+}
+
+int YutJudgmentSystem::YutJudgingAmount(int JudgeValue)
+{
+	Yut_D1 = YutRolling();
+	Yut_D2 = YutRolling();
+	Yut_Cri = YutRolling();
+	Yut_Fum = YutRolling();
+
+	//모두다 등면이면 모: 4로 할당
+	if (SucceedCounter == 0) {
+		SucceedCounter = 4;
+	}
+
+	return SucceedCounter;
+}
