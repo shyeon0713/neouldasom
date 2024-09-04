@@ -22,11 +22,18 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	//Show Total Monster's Damage
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int TotalDamage; //Total Monster's Damage
+	int TotalDamage; 
 
+	UPROPERTY(EditAnywhere, Category="Widget")
+	TSubclassOf<UUserWidget> DamageWidgetClass;
+
+	class Widget* DamageWidget;
+
+	//Set BattleTurn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	bool IsBattleOver;
+	bool IsBattleOver; 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int BattleRound;
