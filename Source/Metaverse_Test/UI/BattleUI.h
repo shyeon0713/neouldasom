@@ -24,6 +24,7 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "SkillSelect")
 	void MappingSkills(SubjectClass Subject, int RowNum);
 
+	//ÃÑ ´ë¹ÌÁö Ç¥½Ã À§Á¬
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* DamageViewText;
 

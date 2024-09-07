@@ -133,7 +133,6 @@ void ABattleSystem::HealSkill(){
 	if (PlayerEntity->JudgmentSubject(SkillClass)) {
 		PlayerEntity->SetHP(healAmount);
 	}
-	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
 }
 

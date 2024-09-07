@@ -15,16 +15,17 @@ YutJudgmentSystem::~YutJudgmentSystem()
 bool YutJudgmentSystem::YutRolling() {
 	int ramdomPercentage = FMath::RandRange(0, 9);
 
-	if (ramdomPercentage < 5) {
-		UE_LOG(LogTemp, Warning, TEXT("Fail! %d"), ramdomPercentage)
+	if (ramdomPercentage < 6) {
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("NOT Flip! %d"), ramdomPercentage));
+		UE_LOG(LogTemp, Warning, TEXT("NOT Flip! %d"), ramdomPercentage)
 		return false;
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Success! %d"), ramdomPercentage)
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Cyan, FString::Printf(TEXT("Flip! %d"), ramdomPercentage));
+		UE_LOG(LogTemp, Warning, TEXT("Flip! %d"), ramdomPercentage)
 		SucceedCounter += 1;
 		return true;
 	}
-
 }
 
 bool YutJudgmentSystem::YutJudgingDefault(int JudgeValue) {
@@ -65,5 +66,6 @@ int YutJudgmentSystem::YutJudgingAmount(){
 		SucceedCounter = 4;
 	}
 
+	UE_LOG(LogTemp, Warning, TEXT("Judge Count: %d"), SucceedCounter)
 	return SucceedCounter;
 }
