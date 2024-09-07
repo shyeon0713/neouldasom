@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "../System/BattleSystem.h"
+#include "Components/TextBlock.h"
 #include "BattleUI.generated.h"
 
 /**
@@ -22,4 +23,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "SkillSelect")
 	void MappingSkills(SubjectClass Subject, int RowNum);
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* DamageViewText;
+
+	FORCEINLINE UTextBlock* GetDamageViewText() { return DamageViewText; };
 };
