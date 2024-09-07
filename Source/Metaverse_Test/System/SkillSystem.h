@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "YutJudgmentSystem.h"
 #include "SkillDataTable.h"
 
 /**
@@ -40,12 +41,16 @@ enum EhList {
 class METAVERSE_TEST_API SkillSystem
 {
 public:
+	SkillSystem();
+
 	int CostMp;
 	int Amount;
 
 	//예외처리 함수
 	int MpExceptionHandling(FSkillInfo* SkillRow);
 	int AmountExceptionHandling(FSkillInfo* SkillRow);
+
+	class YutJudgmentSystem LoadedSystem;
 
 	int SetByPlayerChoice();
 	int SetBySubjectClass();

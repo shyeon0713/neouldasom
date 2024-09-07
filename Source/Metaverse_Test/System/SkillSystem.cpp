@@ -4,6 +4,10 @@
 #include "System/SkillSystem.h"
 #include "YutJudgmentSystem.h"
 
+SkillSystem::SkillSystem(){
+
+}
+
 int SkillSystem::MpExceptionHandling(FSkillInfo* SkillRow){
 	CostMp = SkillRow->MpCost;
 
@@ -76,6 +80,9 @@ int SkillSystem::AmountExceptionHandling(FSkillInfo* SkillRow){
 		case DA_2:
 			Amount = 100;
 			break;
+		case NI_1A:
+			Amount = SetByJudgement();
+			break;
 		case NA_1A:
 			Amount = SetByJudgement();
 			break;
@@ -119,8 +126,7 @@ int SkillSystem::AmountExceptionHandling(FSkillInfo* SkillRow){
 			break;
 
 		default:
-			break;
-		}
+			break;}
 	}
 
 	return Amount;
@@ -136,10 +142,9 @@ int SkillSystem::SetBySubjectClass()
 	return 0;
 }
 
-int SkillSystem::SetByJudgement()
-{
-	//YutJudgmentSystem::YutJudgingAmount(2);
-	return 0;
+int SkillSystem::SetByJudgement(){
+	int totalAmount = LoadedSystem.YutJudgingAmount();
+	return totalAmount;
 }
 
 int SkillSystem::SetByHp()

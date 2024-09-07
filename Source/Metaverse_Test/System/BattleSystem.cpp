@@ -110,11 +110,13 @@ void ABattleSystem::AttackSkill(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 	int damage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
 	
-	PlayerEntity->JudgmentSubject(SkillClass);
-	PlayerEntity->SetHP(-cost);
-	SkillReceiveEntity->SetHP(-damage);
+	if (PlayerEntity->JudgmentSubject(SkillClass)) {
+		SkillReceiveEntity->SetHP(-damage);
+		UE_LOG(LogTemp, Warning, TEXT("Attack Success!"));
+	}
+	PlayerEntity->SetMP(-cost);
 
-	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Cyan, TEXT(""));
+	UE_LOG(LogTemp, Warning, TEXT("Player HP: %d, MP: %d Monster HP: %d, MP: %d"),PlayerEntity->Hp, PlayerEntity->Mp, SkillReceiveEntity->Hp, SkillReceiveEntity->Mp);
 }
 
 void ABattleSystem::DepenseSkill(){
@@ -128,9 +130,11 @@ void ABattleSystem::HealSkill(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 	int healAmount = LoadSkillSystem.AmountExceptionHandling(CurSkill);
 
+	if (PlayerEntity->JudgmentSubject(SkillClass)) {
+		PlayerEntity->SetHP(healAmount);
+	}
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
-	SkillReceiveEntity->SetHP(healAmount);
 }
 
 void ABattleSystem::SupportSkill(){

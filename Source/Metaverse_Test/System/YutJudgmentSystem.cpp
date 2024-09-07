@@ -3,8 +3,8 @@
 
 #include "System/YutJudgmentSystem.h"
 
+
 YutJudgmentSystem::YutJudgmentSystem() {
-	SucceedCounter = 0;
 }
 
 YutJudgmentSystem::~YutJudgmentSystem()
@@ -13,7 +13,7 @@ YutJudgmentSystem::~YutJudgmentSystem()
 
 // T: 배면 40% F: 등면 60% 
 bool YutJudgmentSystem::YutRolling() {
-	int ramdomPercentage = FMath::Rand() % 10;
+	int ramdomPercentage = FMath::RandRange(0, 9);
 
 	if (ramdomPercentage < 5) {
 		UE_LOG(LogTemp, Warning, TEXT("Fail! %d"), ramdomPercentage)
@@ -24,10 +24,12 @@ bool YutJudgmentSystem::YutRolling() {
 		SucceedCounter += 1;
 		return true;
 	}
+
 }
 
 bool YutJudgmentSystem::YutJudgingDefault(int JudgeValue) {
 	UE_LOG(LogTemp, Warning, TEXT("Judge Start: value %d"), JudgeValue)
+	SucceedCounter = 0;
 	Yut_D1 = YutRolling();
 	Yut_D2 = YutRolling();
 	Yut_Cri = YutRolling();
@@ -50,8 +52,9 @@ bool YutJudgmentSystem::YutJudgingDefault(int JudgeValue) {
 	return true;
 }
 
-int YutJudgmentSystem::YutJudgingAmount(int JudgeValue)
-{
+int YutJudgmentSystem::YutJudgingAmount(){
+	SucceedCounter = 0;
+
 	Yut_D1 = YutRolling();
 	Yut_D2 = YutRolling();
 	Yut_Cri = YutRolling();

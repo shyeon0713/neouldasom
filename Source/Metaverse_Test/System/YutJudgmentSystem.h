@@ -30,5 +30,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Judge")
 	bool YutJudgingDefault(const int JudgeValue);
 	UFUNCTION(BlueprintCallable, Category = "Judge")
-	int YutJudgingAmount(int JudgeValue);
+	int YutJudgingAmount();
 };

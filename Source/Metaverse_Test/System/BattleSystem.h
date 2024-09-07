@@ -62,6 +62,7 @@ public:
 	//Save CurSkillData
 	SubjectClass SkillClass;
 	FSkillInfo* CurSkill;
+	int CurSubjectPoint;
 
 	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
