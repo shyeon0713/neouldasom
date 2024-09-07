@@ -18,6 +18,8 @@ void ABattleSystem::BeginPlay()
 }
 
 void ABattleSystem::RunSystem(){
+	//SetMonsterSkill -> 몬스터 스킬 선택 함수. 이건 몬스터 파일을 만들어서 집어넣을 것.
+	//GetPromotion-> 전조 받아오는 함수는 추후 구현
 	BattleTurnPlayer();
 	BattleTurnEnemy();
 }
@@ -38,6 +40,8 @@ void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase*
 void ABattleSystem::BattleTurnPlayer(){
 	IsPlayerTurn = true;
 	IsPlayerSelectSkill = false;
+
+
 }
 
 void ABattleSystem::BattleTurnEnemy(){ IsPlayerTurn = false; }
@@ -133,7 +137,6 @@ void ABattleSystem::HealSkill(){
 	if (PlayerEntity->JudgmentSubject(SkillClass)) {
 		PlayerEntity->SetHP(healAmount);
 	}
-	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
 }
 

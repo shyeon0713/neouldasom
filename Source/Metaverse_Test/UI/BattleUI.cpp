@@ -19,5 +19,8 @@ void UBattleUI::MappingSkills(SubjectClass Subject, int RowNum){
 		CallSystem();
 	}
 
-	LoadedSystem->SkillSystem(Subject, RowNum);
+	if (LoadedSystem->IsPlayerTurn == true) {
+		LoadedSystem->SkillSystem(Subject, RowNum);
+	}
+	
 }

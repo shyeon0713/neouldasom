@@ -48,9 +48,11 @@ protected:
 	//Set Battle turn
 	void BattleTurnPlayer();
 	void BattleTurnEnemy();
+public:
 	bool IsPlayerTurn;
 	bool IsPlayerSelectSkill;
 
+protected:
 	APlayerCharacter* PlayerEntity;
 	ACharacterBase* SkillReceiveEntity;
 
