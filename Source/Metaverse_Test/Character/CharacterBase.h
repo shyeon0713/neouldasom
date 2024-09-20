@@ -31,10 +31,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Fortune; //천운
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Hp; //체력
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Mp; //도력
+
+	int HpLimit; //체력 상한치
+	int MpLimit; //도력 상한치
 
 	//Initialize: Function for initialize entities information
 	UFUNCTION(BlueprintCallable, Category = "Initialize")

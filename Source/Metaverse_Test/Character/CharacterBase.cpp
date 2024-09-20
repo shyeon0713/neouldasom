@@ -14,8 +14,11 @@ void ACharacterBase::InitializeInfo(int H, int D, int C, int W, int F){
 	Wisdom = W;
 	Fortune = F;
 
-	Hp = Desire + Fortune + 18;
-	Mp = Humanity + Courtesy + Wisdom + 6;
+	HpLimit = Desire + Fortune + 18;
+	MpLimit = Humanity + Courtesy + Wisdom + 6;
+
+	Hp = HpLimit;
+	Mp = MpLimit;
 }
 
 int ACharacterBase::GetHP(){return Hp;}

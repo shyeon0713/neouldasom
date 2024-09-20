@@ -24,9 +24,10 @@ void ABattleSystem::RunSystem(){
 
 void ABattleSystem::IsEndGame(bool isDead)
 {
+	//
 }
 
-void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase* Entity2){
+void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2){
 	PlayerEntity = Entity1;
 	SkillReceiveEntity = Entity2;
 
@@ -40,8 +41,13 @@ void ABattleSystem::BattleTurnPlayer(){
 	IsPlayerSelectSkill = false;
 }
 
-void ABattleSystem::BattleTurnEnemy(){ IsPlayerTurn = false; }
+void ABattleSystem::BattleTurnEnemy(){
+	IsPlayerTurn = false;
+	SkillReceiveEntity->CompareStatus(PlayerEntity->GetHP(),PlayerEntity->GetMP());
 
+}
+
+// 아래 항목 추후에 PlayerCharacter에 옮겨둘 것.
 void ABattleSystem::SkillDataLoader(){
 	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_BasicMagic.DT_BasicMagic"));
 	DepenseSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_DepenseMagic.DT_DepenseMagic"));
@@ -51,6 +57,7 @@ void ABattleSystem::SkillDataLoader(){
 	SomaticSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_SomaticMagic.DT_SomaticMagic"));
 }
 
+//
 void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 	SkillClass = Subject;
 	
@@ -149,3 +156,4 @@ void ABattleSystem::PracticalSkill(){
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
 }
+//여기까지.

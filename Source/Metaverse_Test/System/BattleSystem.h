@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "../Character/CharacterBase.h"
 #include "../Character/PlayerCharacter.h"
+#include "../Character/MonsterCharacter.h"
 #include "SkillDataTable.h"
 #include "SkillSystem.h"
 #include "BattleSystem.generated.h"
@@ -42,7 +43,7 @@ protected:
 	void IsEndGame(bool isDead);
 
 	UFUNCTION(BlueprintCallable, Category = "SystemSet")
-	void SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase* Entity2);
+	void SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2);
 	SkillSystem LoadSkillSystem;
 
 	//Set Battle turn
@@ -52,7 +53,7 @@ protected:
 	bool IsPlayerSelectSkill;
 
 	APlayerCharacter* PlayerEntity;
-	ACharacterBase* SkillReceiveEntity;
+	AMonsterCharacter* SkillReceiveEntity;
 
 	//Skill DataTable loader
 	void SkillDataLoader();
