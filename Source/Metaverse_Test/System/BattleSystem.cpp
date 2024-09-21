@@ -15,6 +15,7 @@ void ABattleSystem::BeginPlay()
 	Super::BeginPlay();
 
 	SkillDataLoader();
+	RunSystem();
 }
 
 void ABattleSystem::RunSystem(){
@@ -22,8 +23,7 @@ void ABattleSystem::RunSystem(){
 	BattleTurnEnemy();
 }
 
-void ABattleSystem::IsEndGame(bool isDead)
-{
+void ABattleSystem::IsEndGame(bool isDead){
 }
 
 void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase* Entity2){
@@ -40,7 +40,25 @@ void ABattleSystem::BattleTurnPlayer(){
 	IsPlayerSelectSkill = false;
 }
 
-void ABattleSystem::BattleTurnEnemy(){ IsPlayerTurn = false; }
+void ABattleSystem::BattleTurnEnemy(){ 
+	IsPlayerTurn = false;
+
+	int PassLimit;
+
+	int SkillPersentageNumber = FMath::RandRange(0, 5);
+	static const FString SkillDataContextString(TEXT("SkillTableContext"));
+	if (SkillPersentageNumber == 0) {
+		FName SkillNum = FName(*(FString::FromInt(1)));
+		CurSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
+	}
+	else {
+		FName SkillNum = FName(*(FString::FromInt(2)));
+		CurSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
+	}
+	int PassFailPersentage = FMath::RandRange(0, 9);
+
+
+}
 
 void ABattleSystem::SkillDataLoader(){
 	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_BasicMagic.DT_BasicMagic"));
@@ -49,6 +67,7 @@ void ABattleSystem::SkillDataLoader(){
 	NatureSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_NatureMagic.DT_NatureMagic"));
 	MedecineSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_OrientalMedicine.DT_OrientalMedicine"));
 	SomaticSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_SomaticMagic.DT_SomaticMagic"));
+	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_MonsterSkill.DT_MonsterSkill"));
 }
 
 void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
@@ -57,8 +76,7 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 	FName SkillNum = FName(*(FString::FromInt(RowNum)));
 	static const FString SkillDataContextString(TEXT("SkillTableContext"));
 
-	switch (Subject)
-	{
+	switch (Subject){
 	case BasicMagic:
 		CurSkill = BasicSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
 		break;
@@ -83,8 +101,7 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 	}
 	UE_LOG(LogTemp, Warning, TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType);
 
-	switch (CurSkill->SkillType)
-	{
+	switch (CurSkill->SkillType){
 	case Attack:
 		AttackSkill();
 		break;
