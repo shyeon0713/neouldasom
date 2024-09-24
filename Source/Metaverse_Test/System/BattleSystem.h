@@ -65,6 +65,7 @@ protected:
 	UDataTable* NatureSkillData;
 	UDataTable* MedecineSkillData;
 	UDataTable* SomaticSkillData;
+	UDataTable* MonsterSkillData;
 
 public:
 	//Save CurSkillData
