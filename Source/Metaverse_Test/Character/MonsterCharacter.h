@@ -14,5 +14,6 @@ class METAVERSE_TEST_API AMonsterCharacter : public ACharacterBase
 {
 	GENERATED_BODY()
 	
-
+private:
+	AMonsterCharacter();
 };

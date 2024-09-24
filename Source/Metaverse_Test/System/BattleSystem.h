@@ -39,15 +39,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int BattleRound;
 
+	UFUNCTION(BlueprintCallable, Category = "SystemRunning")
 	void RunSystem();
-	void IsEndGame(bool isDead);
+	void IsEndGame();
 
 	UFUNCTION(BlueprintCallable, Category = "SystemSet")
 	void SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2);
 	SkillSystem LoadSkillSystem;
 
 	//Set Battle turn
+	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
 	void BattleTurnPlayer();
+	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
 	void BattleTurnEnemy();
 	bool IsPlayerTurn;
 	bool IsPlayerSelectSkill;
@@ -83,5 +86,6 @@ public:
 	void SupportSkill();
 	void PracticalSkill();
 
-	//
+	//DebugLog
+	void ShowDebugLog();
 };

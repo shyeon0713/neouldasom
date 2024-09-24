@@ -3,3 +3,6 @@
 
 #include "Character/MonsterCharacter.h"
 
+AMonsterCharacter::AMonsterCharacter(){
+
+}

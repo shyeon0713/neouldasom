@@ -1,0 +1,3 @@
+---,KeyValue,SkillName,Amount,MpCost,Detail,SkillType
+1,M1_1,예언,-1,-1,"대상의 공격을 예언하여 판정치 만큼의 피해를 줄인다.",Depense
+2,M1_2,악몽,3,3,"꿈 속에 있는 존재에게 현실같은 고통을 느끼게 한다.",Attack

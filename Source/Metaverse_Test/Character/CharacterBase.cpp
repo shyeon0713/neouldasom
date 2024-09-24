@@ -27,10 +27,12 @@ int ACharacterBase::GetMP(){return Mp;}
 
 void ACharacterBase::SetHP(int HpMount){
 	Hp += HpMount;
+	Hp = FMath::Clamp(Hp, 0, HpLimit);
 }
 
 void ACharacterBase::SetMP(int MpCost){
 	Mp += MpCost;
+	Mp = FMath::Clamp(Mp, 0, MpLimit);
 }
 
 void ACharacterBase::BeginPlay(){

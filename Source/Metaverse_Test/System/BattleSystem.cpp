@@ -19,14 +19,23 @@ void ABattleSystem::BeginPlay()
 }
 
 void ABattleSystem::RunSystem(){
-	BattleTurnPlayer();
-	BattleTurnEnemy();
+	if (IsPlayerTurn)
+		BattleTurnPlayer();
+	else
+		BattleTurnEnemy();
+
+	BattleRound += 1;
 }
 
-void ABattleSystem::IsEndGame(bool isDead){
+void ABattleSystem::IsEndGame(){
+	if (PlayerEntity->Hp == 0 || SkillReceiveEntity->Hp == 0)
+		IsBattleOver = true;
+
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!"));
+	return;
 }
 
-void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase* Entity2){
+void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2){
 	PlayerEntity = Entity1;
 	SkillReceiveEntity = Entity2;
 
@@ -38,12 +47,12 @@ void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, ACharacterBase*
 void ABattleSystem::BattleTurnPlayer(){
 	IsPlayerTurn = true;
 	IsPlayerSelectSkill = false;
+
+	return;
 }
 
 void ABattleSystem::BattleTurnEnemy(){ 
 	IsPlayerTurn = false;
-
-	int PassLimit;
 
 	int SkillPersentageNumber = FMath::RandRange(0, 5);
 	static const FString SkillDataContextString(TEXT("SkillTableContext"));
@@ -57,7 +66,8 @@ void ABattleSystem::BattleTurnEnemy(){
 	}
 	int PassFailPersentage = FMath::RandRange(0, 9);
 
-
+	IsPlayerTurn = true;
+	return;
 }
 
 void ABattleSystem::SkillDataLoader(){
@@ -101,25 +111,25 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 	}
 	UE_LOG(LogTemp, Warning, TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType);
 
-	switch (CurSkill->SkillType){
-	case Attack:
-		AttackSkill();
-		break;
-	case Depense:
-		DepenseSkill();
-		break;
-	case Heal:
-		HealSkill();
-		break;
-	case Support:
-		SupportSkill();
-		break;
-	case Practical:
-		PracticalSkill();
-		break;
-	default:
-		break;
-	}
+	switch (CurSkill->SkillType) {
+		case Attack:
+			AttackSkill();
+			break;
+		case Depense:
+			DepenseSkill();
+			break;
+		case Heal:
+			HealSkill();
+			break;
+		case Support:
+			SupportSkill();
+			break;
+		case Practical:
+			PracticalSkill();
+			break;
+		default:
+			break;
+		}
 
 }
 
@@ -133,7 +143,7 @@ void ABattleSystem::AttackSkill(){
 	}
 	PlayerEntity->SetMP(-cost);
 
-	UE_LOG(LogTemp, Warning, TEXT("Player HP: %d, MP: %d Monster HP: %d, MP: %d"),PlayerEntity->Hp, PlayerEntity->Mp, SkillReceiveEntity->Hp, SkillReceiveEntity->Mp);
+	ShowDebugLog();
 }
 
 void ABattleSystem::DepenseSkill(){
@@ -141,6 +151,8 @@ void ABattleSystem::DepenseSkill(){
 	
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
+
+	ShowDebugLog();
 }
 
 void ABattleSystem::HealSkill(){
@@ -151,6 +163,8 @@ void ABattleSystem::HealSkill(){
 		PlayerEntity->SetHP(healAmount);
 	}
 	PlayerEntity->SetMP(-cost);
+
+	ShowDebugLog();
 }
 
 void ABattleSystem::SupportSkill(){
@@ -158,6 +172,8 @@ void ABattleSystem::SupportSkill(){
 
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
+
+	ShowDebugLog();
 }
 
 void ABattleSystem::PracticalSkill(){
@@ -165,4 +181,10 @@ void ABattleSystem::PracticalSkill(){
 
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
+
+	ShowDebugLog();
+}
+
+void ABattleSystem::ShowDebugLog(){
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Player HP: %d, MP: %d Monster HP: %d, MP: %d"), PlayerEntity->Hp, PlayerEntity->Mp, SkillReceiveEntity->Hp, SkillReceiveEntity->Mp));
 }
