@@ -7,6 +7,7 @@
 ABattleSystem::ABattleSystem(){
 	TotalDamage = 0;
 	IsBattleOver = false;
+	//IsPlayerTurn = true;
 	BattleRound = 1;
 }
 
@@ -15,23 +16,20 @@ void ABattleSystem::BeginPlay()
 	Super::BeginPlay();
 
 	SkillDataLoader();
-	RunSystem();
+	//RunSystem();
 }
 
 void ABattleSystem::RunSystem(){
-	if (IsPlayerTurn)
-		BattleTurnPlayer();
-	else
+	if (!IsPlayerTurn) {
 		BattleTurnEnemy();
-
-	BattleRound += 1;
+	}
 }
 
 void ABattleSystem::IsEndGame(){
 	if (PlayerEntity->Hp == 0 || SkillReceiveEntity->Hp == 0)
 		IsBattleOver = true;
 
-	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!"));
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!")));
 	return;
 }
 
@@ -44,10 +42,11 @@ void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharact
 	}
 }
 
-void ABattleSystem::BattleTurnPlayer(){
+void ABattleSystem::BattleTurnPlayer(SubjectClass Subject, int RowNum){
 	IsPlayerTurn = true;
 	IsPlayerSelectSkill = false;
 
+	IsEndGame();
 	return;
 }
 
@@ -66,7 +65,10 @@ void ABattleSystem::BattleTurnEnemy(){
 	}
 	int PassFailPersentage = FMath::RandRange(0, 9);
 
+	UE_LOG(LogTemp, Warning, TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType);
 	IsPlayerTurn = true;
+	IsEndGame();
+
 	return;
 }
 
@@ -131,6 +133,7 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 			break;
 		}
 
+	IsPlayerTurn = false;
 }
 
 void ABattleSystem::AttackSkill(){

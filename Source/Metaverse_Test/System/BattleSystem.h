@@ -49,12 +49,15 @@ protected:
 
 	//Set Battle turn
 	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
-	void BattleTurnPlayer();
+	void BattleTurnPlayer(SubjectClass Subject, int RowNum);
 	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
 	void BattleTurnEnemy();
+
+public:
 	bool IsPlayerTurn;
 	bool IsPlayerSelectSkill;
 
+protected:
 	APlayerCharacter* PlayerEntity;
 	AMonsterCharacter* SkillReceiveEntity;
 
