@@ -39,8 +39,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int BattleRound;
 
-	UFUNCTION(BlueprintCallable, Category = "SystemRunning")
-	void RunSystem();
 	void IsEndGame();
 
 	UFUNCTION(BlueprintCallable, Category = "SystemSet")
@@ -49,17 +47,17 @@ protected:
 
 	//Set Battle turn
 	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
-	void BattleTurnPlayer(SubjectClass Subject, int RowNum);
+	void BattleTurnPlayer();
 	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
 	void BattleTurnEnemy();
-
 public:
+	void EndTurn();
+
 	bool IsPlayerTurn;
-	bool IsPlayerSelectSkill;
 
 protected:
 	APlayerCharacter* PlayerEntity;
-	AMonsterCharacter* SkillReceiveEntity;
+	AMonsterCharacter* MonsterEntity;
 
 	//Skill DataTable loader
 	void SkillDataLoader();
@@ -78,6 +76,7 @@ public:
 	SubjectClass SkillClass;
 	FSkillInfo* CurSkill;
 	int CurSubjectPoint;
+	int DependedDamage;
 
 	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
@@ -88,6 +87,9 @@ public:
 	void HealSkill();
 	void SupportSkill();
 	void PracticalSkill();
+
+	void MonsterAttack();
+	void MonsterDepense();
 
 	//DebugLog
 	void ShowDebugLog();

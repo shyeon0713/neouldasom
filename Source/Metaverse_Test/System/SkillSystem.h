@@ -35,7 +35,8 @@ enum EhList {
 	SA_1,
 	SA_2,
 	SA_3,
-	OI_2
+	OI_2,
+	M1_1
 };
 
 class METAVERSE_TEST_API SkillSystem

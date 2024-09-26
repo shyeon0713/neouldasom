@@ -7,7 +7,7 @@
 ABattleSystem::ABattleSystem(){
 	TotalDamage = 0;
 	IsBattleOver = false;
-	//IsPlayerTurn = true;
+	IsPlayerTurn = true;
 	BattleRound = 1;
 }
 
@@ -16,17 +16,11 @@ void ABattleSystem::BeginPlay()
 	Super::BeginPlay();
 
 	SkillDataLoader();
-	//RunSystem();
-}
-
-void ABattleSystem::RunSystem(){
-	if (!IsPlayerTurn) {
-		BattleTurnEnemy();
-	}
+	BattleTurnPlayer();
 }
 
 void ABattleSystem::IsEndGame(){
-	if (PlayerEntity->Hp == 0 || SkillReceiveEntity->Hp == 0)
+	if (PlayerEntity->Hp == 0 || MonsterEntity->Hp == 0)
 		IsBattleOver = true;
 
 	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!")));
@@ -35,26 +29,22 @@ void ABattleSystem::IsEndGame(){
 
 void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2){
 	PlayerEntity = Entity1;
-	SkillReceiveEntity = Entity2;
+	MonsterEntity = Entity2;
 
 	if (PlayerEntity == nullptr) {
 		UE_LOG(LogTemp, Warning, TEXT("Initialize Failed!"))
 	}
 }
 
-void ABattleSystem::BattleTurnPlayer(SubjectClass Subject, int RowNum){
-	IsPlayerTurn = true;
-	IsPlayerSelectSkill = false;
-
-	IsEndGame();
+void ABattleSystem::BattleTurnPlayer(){
 	return;
 }
 
 void ABattleSystem::BattleTurnEnemy(){ 
-	IsPlayerTurn = false;
 
 	int SkillPersentageNumber = FMath::RandRange(0, 5);
 	static const FString SkillDataContextString(TEXT("SkillTableContext"));
+
 	if (SkillPersentageNumber == 0) {
 		FName SkillNum = FName(*(FString::FromInt(1)));
 		CurSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
@@ -63,13 +53,40 @@ void ABattleSystem::BattleTurnEnemy(){
 		FName SkillNum = FName(*(FString::FromInt(2)));
 		CurSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
 	}
-	int PassFailPersentage = FMath::RandRange(0, 9);
+	
+	switch (CurSkill->SkillType) {
+	case Attack:
+		MonsterAttack();
+		break;
+	case Depense:
+		MonsterDepense();
+		break;
+	case Heal:
+		//HealSkill();
+		break;
+	case Support:
+		//SupportSkill();
+		break;
+	case Practical:
+		//PracticalSkill();
+		break;
+	default:
+		break;
+	}
 
-	UE_LOG(LogTemp, Warning, TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType);
-	IsPlayerTurn = true;
-	IsEndGame();
-
+	EndTurn();
 	return;
+}
+
+void ABattleSystem::EndTurn(){
+	if (IsPlayerTurn) {
+		IsPlayerTurn = false;
+		BattleTurnPlayer();
+	}
+	else {
+		IsPlayerTurn = true;
+		BattleTurnEnemy();
+	}
 }
 
 void ABattleSystem::SkillDataLoader(){
@@ -111,7 +128,6 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 		UE_LOG(LogTemp, Warning, TEXT("Subject Not Found!"))
 		break;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType);
 
 	switch (CurSkill->SkillType) {
 		case Attack:
@@ -133,24 +149,30 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 			break;
 		}
 
-	IsPlayerTurn = false;
+	
 }
 
 void ABattleSystem::AttackSkill(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	int damage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
+	int damage = FMath::Clamp(LoadSkillSystem.AmountExceptionHandling(CurSkill) - DependedDamage, 0, 50);
 	
-	if (PlayerEntity->JudgmentSubject(SkillClass)) {
-		SkillReceiveEntity->SetHP(-damage);
-		UE_LOG(LogTemp, Warning, TEXT("Attack Success!"));
+	if (cost <= PlayerEntity->GetMP()) {
+		if (PlayerEntity->JudgmentSubject(SkillClass)) {
+			MonsterEntity->SetHP(-damage);
+		}
+		PlayerEntity->SetMP(-cost);
 	}
-	PlayerEntity->SetMP(-cost);
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 7.0, FColor::Red, "Skill Ready Failed!");
+	}
 
+	DependedDamage = 0;
 	ShowDebugLog();
 }
 
 void ABattleSystem::DepenseSkill(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
+	DependedDamage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
 	
 	PlayerEntity->JudgmentSubject(SkillClass);
 	PlayerEntity->SetMP(-cost);
@@ -188,6 +210,27 @@ void ABattleSystem::PracticalSkill(){
 	ShowDebugLog();
 }
 
+void ABattleSystem::MonsterAttack(){
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
+	int damage = FMath::Clamp(LoadSkillSystem.AmountExceptionHandling(CurSkill) - DependedDamage, 0, 50);
+
+	PlayerEntity->SetHP(-damage);
+	MonsterEntity->SetMP(-cost);
+
+	DependedDamage = 0;
+	ShowDebugLog();
+}
+
+void ABattleSystem::MonsterDepense(){
+	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
+	DependedDamage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
+
+	MonsterEntity->SetMP(-cost);
+
+	ShowDebugLog();
+}
+
 void ABattleSystem::ShowDebugLog(){
-	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Player HP: %d, MP: %d Monster HP: %d, MP: %d"), PlayerEntity->Hp, PlayerEntity->Mp, SkillReceiveEntity->Hp, SkillReceiveEntity->Mp));
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("KeyValue %s, SkillName %s ,Amount %d ,MpCost %d ,Detail %s, SKillType %d"), *CurSkill->KeyValue, *CurSkill->SkillName, CurSkill->Amount, CurSkill->MpCost, *CurSkill->Detail, CurSkill->SkillType));
+	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Player HP: %d, MP: %d Monster HP: %d, MP: %d"), PlayerEntity->Hp, PlayerEntity->Mp, MonsterEntity->Hp, MonsterEntity->Mp));
 }

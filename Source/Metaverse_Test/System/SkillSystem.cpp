@@ -49,6 +49,9 @@ int SkillSystem::MpExceptionHandling(FSkillInfo* SkillRow){
 		case OA_2:
 			CostMp = SetByPlayerChoice();
 			break;
+		case M1_1:
+			CostMp = SetByJudgement();
+			break;
 		default:
 			break;
 		}
@@ -123,6 +126,9 @@ int SkillSystem::AmountExceptionHandling(FSkillInfo* SkillRow){
 		case SA_2:
 			break;
 		case SA_3:
+			break;
+		case M1_1:
+			Amount = CostMp;
 			break;
 
 		default:
