@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 Metaverse_Test[[:space:]](1) filter=lfs diff=lfs merge=lfs -text
+Meatverse_Test(1) filter=lfs diff=lfs merge=lfs -text
