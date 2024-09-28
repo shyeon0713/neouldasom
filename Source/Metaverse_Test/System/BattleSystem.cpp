@@ -149,8 +149,6 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 		default:
 			break;
 		}
-
-	
 }
 
 void ABattleSystem::AttackSkill(){
