@@ -20,11 +20,10 @@ void ABattleSystem::BeginPlay()
 }
 
 void ABattleSystem::IsEndGame(){
-	if (PlayerEntity->Hp == 0 || MonsterEntity->Hp == 0)
+	if (PlayerEntity->Hp <= 0 || MonsterEntity->Hp <= 0) {
 		IsBattleOver = true;
-
-	GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!")));
-	return;
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!")));
+	}
 }
 
 void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2){
@@ -79,13 +78,15 @@ void ABattleSystem::BattleTurnEnemy(){
 }
 
 void ABattleSystem::EndTurn(){
+	IsEndGame();
+
 	if (IsPlayerTurn) {
 		IsPlayerTurn = false;
-		BattleTurnPlayer();
+		BattleTurnEnemy();
 	}
 	else {
 		IsPlayerTurn = true;
-		BattleTurnEnemy();
+		BattleTurnPlayer();
 	}
 }
 
