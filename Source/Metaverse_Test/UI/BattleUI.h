@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "../System/BattleSystem.h"
-#include "Components/TextBlock.h"
+#include "Components/Image.h"
 #include "BattleUI.generated.h"
 
 /**
@@ -17,6 +17,8 @@ class METAVERSE_TEST_API UBattleUI : public UUserWidget
 	GENERATED_BODY()
 	
 protected:
+	UBattleUI(const FObjectInitializer &ObjectInitializer);
+
 	class ABattleSystem* LoadedSystem;
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void CallSystem();
@@ -24,9 +26,13 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "SkillSelect")
 	void MappingSkills(SubjectClass Subject, int RowNum);
 
-	//ÃÑ ´ë¹ÌÁö Ç¥½Ã À§Á¬
-	UPROPERTY(meta = (BindWidget))
-	UTextBlock* DamageViewText;
+	TSubclassOf<UUserWidget> WidgetClass;
+	UBattleUI* BattleWidgetInstance;
 
-	FORCEINLINE UTextBlock* GetDamageViewText() { return DamageViewText; };
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidgetOptional))
+	class UImage* Success;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UImage* Fail;
+
+	void ShowPassFailCutIn(bool IsSucceed);
 };

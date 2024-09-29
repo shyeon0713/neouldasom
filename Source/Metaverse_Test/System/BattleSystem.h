@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "../Character/CharacterBase.h"
 #include "../Character/PlayerCharacter.h"
 #include "../Character/MonsterCharacter.h"
 #include "SkillDataTable.h"
@@ -35,7 +34,6 @@ protected:
 	//Set BattleTurn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsBattleOver; 
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int BattleRound;
 
@@ -77,11 +75,14 @@ public:
 	FSkillInfo* CurSkill;
 	int CurSubjectPoint;
 	int DependedDamage;
+	bool IsSkillSucceed;
+	bool GetSkillIsSucceed();
 
 	//System
 	UFUNCTION(BlueprintCallable, Category = "Battle")
 	void SkillSystem(SubjectClass Subject, int RowNum);
 
+protected:
 	void AttackSkill();
 	void DepenseSkill();
 	void HealSkill();

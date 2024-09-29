@@ -4,6 +4,13 @@
 #include "UI/BattleUI.h"
 #include "Kismet/GameplayStatics.h"
 
+
+UBattleUI::UBattleUI(const FObjectInitializer& ObjectInitializer)
+	:Super(ObjectInitializer){
+	Success = Cast<UImage>(GetWidgetFromName(TEXT("Success")));
+	Fail = Cast<UImage>(GetWidgetFromName(TEXT("Fail")));
+}
+
 void UBattleUI::CallSystem(){
 	if (!LoadedSystem) {
 		TArray<AActor*> FoundActors;
@@ -20,5 +27,17 @@ void UBattleUI::MappingSkills(SubjectClass Subject, int RowNum){
 	}
 
 	LoadedSystem->SkillSystem(Subject, RowNum);
+	ShowPassFailCutIn(LoadedSystem->GetSkillIsSucceed());
 	LoadedSystem->EndTurn();
+}
+
+void UBattleUI::ShowPassFailCutIn(bool IsSucceed){
+	FTimerHandle CutInTimerHnadle;
+
+	if (IsSucceed) {
+ 		Success->SetVisibility(ESlateVisibility::HitTestInvisible);
+	}
+	else if(!IsSucceed) {
+		Fail->SetVisibility(ESlateVisibility::HitTestInvisible);
+	}
 }

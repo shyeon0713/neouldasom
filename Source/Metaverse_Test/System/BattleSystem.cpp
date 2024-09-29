@@ -22,7 +22,7 @@ void ABattleSystem::BeginPlay()
 void ABattleSystem::IsEndGame(){
 	if (PlayerEntity->Hp <= 0 || MonsterEntity->Hp <= 0) {
 		IsBattleOver = true;
-		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Yellow, FString::Printf(TEXT("Battle End!")));
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("Battle End!")));
 	}
 }
 
@@ -100,6 +100,10 @@ void ABattleSystem::SkillDataLoader(){
 	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_MonsterSkill.DT_MonsterSkill"));
 }
 
+bool ABattleSystem::GetSkillIsSucceed(){
+	return IsSkillSucceed;
+}
+
 void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 	SkillClass = Subject;
 	
@@ -149,18 +153,18 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 		default:
 			break;
 		}
-
-	
 }
 
 void ABattleSystem::AttackSkill(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	int damage = FMath::Clamp(LoadSkillSystem.AmountExceptionHandling(CurSkill) - DependedDamage, 0, 50);
 	
 	if (cost <= PlayerEntity->GetMP()) {
 		if (PlayerEntity->JudgmentSubject(SkillClass)) {
-			MonsterEntity->SetHP(-damage);
+			MonsterEntity->SetHP(-FMath::Clamp(LoadSkillSystem.AmountExceptionHandling(CurSkill) - DependedDamage, 0, 50));
+			IsSkillSucceed = true;
 		}
+		else
+			IsSkillSucceed = false;
 		PlayerEntity->SetMP(-cost);
 	}
 	else {
@@ -173,9 +177,10 @@ void ABattleSystem::AttackSkill(){
 
 void ABattleSystem::DepenseSkill(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
-	DependedDamage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
 	
-	PlayerEntity->JudgmentSubject(SkillClass);
+	if (PlayerEntity->JudgmentSubject(SkillClass)) {
+		DependedDamage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
+	}
 	PlayerEntity->SetMP(-cost);
 
 	ShowDebugLog();
@@ -187,8 +192,12 @@ void ABattleSystem::HealSkill(){
 
 	if (PlayerEntity->JudgmentSubject(SkillClass)) {
 		PlayerEntity->SetHP(healAmount);
+		IsSkillSucceed = true;
 	}
+	else
+		IsSkillSucceed = false;
 	PlayerEntity->SetMP(-cost);
+	
 
 	ShowDebugLog();
 }
