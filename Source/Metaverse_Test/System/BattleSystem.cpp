@@ -90,6 +90,7 @@ void ABattleSystem::EndTurn(){
 	}
 }
 
+//스킬 데이터를 데이터 테이블로 옮김
 void ABattleSystem::SkillDataLoader(){
 	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_BasicMagic.DT_BasicMagic"));
 	DepenseSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_DepenseMagic.DT_DepenseMagic"));
@@ -104,6 +105,7 @@ bool ABattleSystem::GetSkillIsSucceed(){
 	return IsSkillSucceed;
 }
 
+//스킬 찾기
 void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 	SkillClass = Subject;
 	
@@ -134,6 +136,7 @@ void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
 		break;
 	}
 
+	//스킬 분류에 맞게 함수 나눠두기
 	switch (CurSkill->SkillType) {
 		case Attack:
 			AttackSkill();
