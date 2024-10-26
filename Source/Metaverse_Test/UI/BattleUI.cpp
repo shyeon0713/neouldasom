@@ -31,6 +31,7 @@ void UBattleUI::MappingSkills(SubjectClass Subject, int RowNum){
 	LoadedSystem->EndTurn();
 }
 
+//성공/실패 여부 확인 가능한 컷인
 void UBattleUI::ShowPassFailCutIn(bool IsSucceed){
 	FTimerHandle CutInTimerHnadle;
 

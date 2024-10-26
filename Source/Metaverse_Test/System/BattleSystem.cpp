@@ -2,6 +2,7 @@
 
 
 #include "System/BattleSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABattleSystem::ABattleSystem(){
@@ -23,9 +24,11 @@ void ABattleSystem::IsEndGame(){
 	if (PlayerEntity->Hp <= 0 || MonsterEntity->Hp <= 0) {
 		IsBattleOver = true;
 		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("Battle End!")));
+		UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/Level/OutSide_2D3DHybrid")));
 	}
 }
 
+//Entity 설정
 void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharacter* Entity2){
 	PlayerEntity = Entity1;
 	MonsterEntity = Entity2;
@@ -77,6 +80,7 @@ void ABattleSystem::BattleTurnEnemy(){
 	return;
 }
 
+//턴 끝내고 다음 턴 진행 여부 확인.
 void ABattleSystem::EndTurn(){
 	IsEndGame();
 
