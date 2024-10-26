@@ -101,6 +101,7 @@ void ABattleSystem::SkillDataLoader(){
 	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_MonsterSkill.DT_MonsterSkill"));
 }
 
+//스킬 성공 여부 반환
 bool ABattleSystem::GetSkillIsSucceed(){
 	return IsSkillSucceed;
 }

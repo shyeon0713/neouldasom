@@ -19,10 +19,12 @@ class METAVERSE_TEST_API UBattleUI : public UUserWidget
 protected:
 	UBattleUI(const FObjectInitializer &ObjectInitializer);
 
+	//시스템 로더(연동)
 	class ABattleSystem* LoadedSystem;
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void CallSystem();
 
+	//스킬 적용
 	UFUNCTION(BlueprintCallable, Category = "SkillSelect")
 	void MappingSkills(SubjectClass Subject, int RowNum);
 
