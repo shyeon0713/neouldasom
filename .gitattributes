@@ -3,3 +3,7 @@
 Metaverse_Test[[:space:]](1) filter=lfs diff=lfs merge=lfs -text
 Meatverse_Test(1) filter=lfs diff=lfs merge=lfs -text
 Metaverse_Test0927 filter=lfs diff=lfs merge=lfs -text
+Metaverse_Test1012 filter=lfs diff=lfs merge=lfs -text
+C:UsersuserDownloadsMetaverse_Test101 filter=lfs diff=lfs merge=lfs -text
+C:UsersuserDownloadsMetaverse_Test1012 filter=lfs diff=lfs merge=lfs -text
+C:/Users/user/Downloads/Metaverse_Test1012 filter=lfs diff=lfs merge=lfs -text
