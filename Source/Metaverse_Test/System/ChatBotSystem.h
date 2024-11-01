@@ -1,36 +1,32 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+cpp
+코드 복사
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "Http.h"
 #include "Json.h"
-#include "ChatBotSystem.generated.h"
+#include "ChatBot.generated.h"
 
-/**
- * 
- */
-UCLASS(Blueprintable)
-class METAVERSE_TEST_API UChatBotSystem : public UObject
+UCLASS()
+class Metaverse_Test_API UChatBot : public UObject
 {
-	GENERATED_BODY()
-	
-public:
-	UChatBotSystem();
+    GENERATED_BODY()
 
-	//메시지를 전송하고 응답을 처리함
-	UFUNCTION(BlueprintCallable, Category = "ChatBotSystem")
-	void SendMessageToOpenAI(const FString& Message);
+public:
+    UChatBot();
+
+    // 메시지를 전송하고 응답을 처리하는 함수
+    UFUNCTION(BlueprintCallable, Category = "ChatBot")
+    void SendMessageToOpenAI(const FString& Message);
 
 private:
-	//HTTP 요청 초기화
-	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSucceed);
+    // HTTP 요청을 초기화하는 함수
+    void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
-	//HTTP 요청용 객체
-	TSharedPtr<IHttpRequest, ESPMode::ThreadSafe> HttpRequest;
+    // HTTP 요청용 객체
+    TSharedPtr<IHttpRequest, ESPMode::ThreadSafe> HttpRequest;
 
-	//API와 Key 모델 설정
-	FString ApiKey;
-	FString Model;
+    // API Key와 모델 설정
+    FString ApiKey;
+    FString Model;
 };

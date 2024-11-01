@@ -1,19 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "System/ChatBotSystem.h"
+cpp
+코드 복사
+#include "ChatBotSystem.h"
 #include "Interfaces/IHttpResponse.h"
 
-//Api랑 Key 모델 초기화
-UChatBotSystem::UChatBotSystem(){
-	ApiKey = "Key";// OpenAI API 키를 입력
-	Model = "Model";// 사용할 모델 이름 설정
+// 생성자: API 키와 모델을 초기화합니다.
+UChatBot::UChatBot()
+{
+    ApiKey = "";// OpenAI API 키를 입력
+    Model = "gpt-4o";// 사용할 모델 이름 설정
 }
 
-void UChatBotSystem::SendMessageToOpenAI(const FString& Message){
+// 사용자의 메시지를 OpenAI로 전송하는 함수void UChatBot::SendMessageToOpenAI(const FString& Message)
+{
     // HTTP 요청 객체 생성 및 설정
     HttpRequest = FHttpModule::Get().CreateRequest();
-    HttpRequest->OnProcessRequestComplete().BindUObject(this, &UChatBotSystem::OnResponseReceived);
+    HttpRequest->OnProcessRequestComplete().BindUObject(this, &UChatBot::OnResponseReceived);
 
     HttpRequest->SetURL("https://api.openai.com/v1/chat/completions");
     HttpRequest->SetVerb("POST");
@@ -42,8 +43,11 @@ void UChatBotSystem::SendMessageToOpenAI(const FString& Message){
     HttpRequest->ProcessRequest();
 }
 
-void UChatBotSystem::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSucceed){
-    if (bWasSucceed && Response->GetResponseCode() == 200)
+
+// OpenAI의 응답을 처리하는 함수
+void UChatBot::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+    if (bWasSuccessful && Response->GetResponseCode() == 200)
     {
         // JSON 응답 파싱
         TSharedPtr<FJsonObject> JsonResponse;
@@ -64,3 +68,4 @@ void UChatBotSystem::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePt
         UE_LOG(LogTemp, Error, TEXT("Request failed: %s"), *Response->GetContentAsString());
     }
 }
+
