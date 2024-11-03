@@ -12,8 +12,7 @@ ABattleSystem::ABattleSystem(){
 	BattleRound = 1;
 }
 
-void ABattleSystem::BeginPlay()
-{
+void ABattleSystem::BeginPlay(){
 	Super::BeginPlay();
 
 	SkillDataLoader();
@@ -21,7 +20,12 @@ void ABattleSystem::BeginPlay()
 }
 
 void ABattleSystem::IsEndGame(){
-	if (PlayerEntity->Hp <= 0 || MonsterEntity->Hp <= 0) {
+	if (PlayerEntity->Hp <= 0) {
+		IsBattleOver = true;
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("Battle End!")));
+		UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/Level/OutSide_2D3DHybrid")));
+	}
+	if (MonsterEntity->Hp <= 0) {
 		IsBattleOver = true;
 		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("Battle End!")));
 		UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/Level/OutSide_2D3DHybrid")));
@@ -38,9 +42,9 @@ void ABattleSystem::SetBattleEntities(APlayerCharacter* Entity1, AMonsterCharact
 	}
 }
 
-void ABattleSystem::BattleTurnPlayer(){
-	return;
-}
+//void ABattleSystem::SetBattleNpcs(APlayerCharacter* Entity1, AMonsterCharacter* Entity2) {}
+
+void ABattleSystem::BattleTurnPlayer(){ return; }
 
 void ABattleSystem::BattleTurnEnemy(){ 
 
@@ -49,14 +53,14 @@ void ABattleSystem::BattleTurnEnemy(){
 
 	if (SkillPersentageNumber == 0) {
 		FName SkillNum = FName(*(FString::FromInt(1)));
-		CurSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
+		MonsterSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
 	}
 	else {
 		FName SkillNum = FName(*(FString::FromInt(2)));
-		CurSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
+		MonsterSkill = MonsterSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
 	}
 	
-	switch (CurSkill->SkillType) {
+	switch (MonsterSkill->SkillType) {
 	case Attack:
 		MonsterAttack();
 		break;
@@ -178,6 +182,7 @@ void ABattleSystem::AttackSkill(){
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 7.0, FColor::Red, "Skill Ready Failed!");
 	}
+
 
 	DependedDamage = 0;
 	ShowDebugLog();
