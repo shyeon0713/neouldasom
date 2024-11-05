@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "System/ChatBotSystem.h"
+#include "ChatBotSystem.h"
 #include "ChatBotSystem_Battle.generated.h"
 
 /**
