@@ -1,19 +1,3 @@
-<<<<<<< Updated upstream
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "System/ChatBotSystem.h"
-#include "Interfaces/IHttpResponse.h"
-
-//Api랑 Key 모델 초기화
-UChatBotSystem::UChatBotSystem(){
-	ApiKey = "Key";// OpenAI API 키를 입력
-	Model = "Model";// 사용할 모델 이름 설정
-}
-
-void UChatBotSystem::SendMessageToOpenAI(const FString& Message){
-    // HTTP 요청 객체 생성 및 설정
-=======
 #include "ChatBotSystem.h"
 
 
@@ -22,7 +6,7 @@ UChatBotSystem::UChatBotSystem()
 {
     ApiKey = ""; // OpenAI API 키를 입력
     Model = "gpt-4o"; // 사용할 모델 이름 설정
-    Prompt = "넌 도사들의 학교 설화학당에서 기본도술을 가르치는 강사 전훈이야. 어떤 질문을 받던 도서관으로 가도록 자연스럽게 유도해줘."; // 프롬프트 설정
+    Prompt = "넌 도사들의 학교 설화학당에서 기본도술을 가르치는 강사 전훈이야. "; // 프롬프트 설정
 }
 
 // 프롬프트를 설정하는 함수
@@ -34,7 +18,6 @@ void UChatBotSystem::SetPrompt(const FString& NewPrompt)
 // 사용자 메시지와 프롬프트를 OpenAI로 전송하는 함수
 void UChatBotSystem::SendMessageToOpenAI(const FString& Message)
 {
->>>>>>> Stashed changes
     HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->OnProcessRequestComplete().BindUObject(this, &UChatBotSystem::OnResponseReceived);
 
@@ -67,15 +50,10 @@ void UChatBotSystem::SendMessageToOpenAI(const FString& Message)
     HttpRequest->ProcessRequest();
 }
 
-<<<<<<< Updated upstream
-void UChatBotSystem::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSucceed){
-    if (bWasSucceed && Response->GetResponseCode() == 200)
-=======
 // OpenAI의 응답을 처리하는 함수
 void UChatBotSystem::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
     if (bWasSuccessful && Response->GetResponseCode() == 200)
->>>>>>> Stashed changes
     {
         TSharedPtr<FJsonObject> JsonResponse;
         TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
