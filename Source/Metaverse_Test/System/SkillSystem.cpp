@@ -114,6 +114,7 @@ int SkillSystem::AmountExceptionHandling(FSkillInfo* SkillRow){
 		case SB_1D:
 			break;
 		case SB_2:
+			Amount = 2 + 2;
 			break;
 		case SB_3:
 			break;

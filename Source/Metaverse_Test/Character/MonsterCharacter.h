@@ -16,4 +16,7 @@ class METAVERSE_TEST_API AMonsterCharacter : public ACharacterBase
 	
 private:
 	AMonsterCharacter();
+
+public:
+	bool JudgmentSkill(int score);
 };

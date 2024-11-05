@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "System/BattleSystem.h"
+#include "BattleSystem.h"
+#include "../UI/BattleCutInUI.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -10,6 +11,8 @@ ABattleSystem::ABattleSystem(){
 	IsBattleOver = false;
 	IsPlayerTurn = true;
 	BattleRound = 1;
+
+
 }
 
 void ABattleSystem::BeginPlay(){
@@ -26,6 +29,11 @@ void ABattleSystem::IsEndGame(){
 		UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/Level/OutSide_2D3DHybrid")));
 	}
 	if (MonsterEntity->Hp <= 0) {
+		IsBattleOver = true;
+		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("Battle End!")));
+		UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/Level/OutSide_2D3DHybrid")));
+	}
+	if (BattleRound == 6) {
 		IsBattleOver = true;
 		GEngine->AddOnScreenDebugMessage(-1, 7.0f, FColor::Red, FString::Printf(TEXT("Battle End!")));
 		UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/Level/OutSide_2D3DHybrid")));
@@ -95,18 +103,19 @@ void ABattleSystem::EndTurn(){
 	else {
 		IsPlayerTurn = true;
 		BattleTurnPlayer();
+		BattleRound += 1;
 	}
 }
 
 //스킬 데이터를 데이터 테이블로 옮김
 void ABattleSystem::SkillDataLoader(){
-	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_BasicMagic.DT_BasicMagic"));
-	DepenseSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_DepenseMagic.DT_DepenseMagic"));
-	ExplorationSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_ExplorationMagic.DT_ExplorationMagic"));
-	NatureSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_NatureMagic.DT_NatureMagic"));
-	MedecineSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_OrientalMedicine.DT_OrientalMedicine"));
-	SomaticSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_SomaticMagic.DT_SomaticMagic"));
-	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DT_Skill/DT_MonsterSkill.DT_MonsterSkill"));
+	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_BasicMagic.DT_BasicMagic"));
+	DepenseSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_DepenseMagic.DT_DepenseMagic"));
+	ExplorationSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_ExplorationMagic.DT_ExplorationMagic"));
+	NatureSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_NatureMagic.DT_NatureMagic"));
+	MedecineSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_OrientalMedicine.DT_OrientalMedicine"));
+	SomaticSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_SomaticMagic.DT_SomaticMagic"));
+	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_MonsterSkill.DT_MonsterSkill"));
 }
 
 //스킬 성공 여부 반환
@@ -181,8 +190,8 @@ void ABattleSystem::AttackSkill(){
 	}
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 7.0, FColor::Red, "Skill Ready Failed!");
+		IsSkillSucceed = false;
 	}
-
 
 	DependedDamage = 0;
 	ShowDebugLog();
@@ -237,8 +246,16 @@ void ABattleSystem::MonsterAttack(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 	int damage = FMath::Clamp(LoadSkillSystem.AmountExceptionHandling(CurSkill) - DependedDamage, 0, 50);
 
-	PlayerEntity->SetHP(-damage);
-	MonsterEntity->SetMP(-cost);
+	if (cost <= MonsterEntity->GetMP()) {
+		if (MonsterEntity->JudgmentSkill(3)) {
+			PlayerEntity->SetHP(-damage);
+		}
+
+		MonsterEntity->SetMP(-cost);
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 7.0, FColor::Red, "Skill Ready Failed!");
+	}
 
 	DependedDamage = 0;
 	ShowDebugLog();
@@ -248,7 +265,15 @@ void ABattleSystem::MonsterDepense(){
 	int cost = LoadSkillSystem.MpExceptionHandling(CurSkill);
 	DependedDamage = LoadSkillSystem.AmountExceptionHandling(CurSkill);
 
-	MonsterEntity->SetMP(-cost);
+	if (cost <= MonsterEntity->GetMP()) {
+		if (MonsterEntity->JudgmentSkill(3)) {
+
+		}
+		MonsterEntity->SetMP(-cost);
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 7.0, FColor::Red, "Skill Ready Failed!");
+	}
 
 	ShowDebugLog();
 }
