@@ -16,7 +16,7 @@ class METAVERSE_TEST_API ABattleSystem : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	// Constructor
 	ABattleSystem();
 
 protected:
@@ -65,16 +65,6 @@ protected:
 	APlayerCharacter* PlayerEntity;
 	AMonsterCharacter* MonsterEntity;
 
-	//Skill DataTable loader
-	void SkillDataLoader();
-
-	//Save SkillDataTable
-	UDataTable* BasicSkillData;
-	UDataTable* DepenseSkillData;
-	UDataTable* ExplorationSkillData;
-	UDataTable* NatureSkillData;
-	UDataTable* MedecineSkillData;
-	UDataTable* SomaticSkillData;
 	UDataTable* MonsterSkillData;
 
 public:

@@ -12,13 +12,12 @@ ABattleSystem::ABattleSystem(){
 	IsPlayerTurn = true;
 	BattleRound = 1;
 
-
+	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_MonsterSkill.DT_MonsterSkill"));
 }
 
 void ABattleSystem::BeginPlay(){
 	Super::BeginPlay();
 
-	SkillDataLoader();
 	BattleTurnPlayer();
 }
 
@@ -100,22 +99,10 @@ void ABattleSystem::EndTurn(){
 		IsPlayerTurn = false;
 		BattleTurnEnemy();
 	}
-	else {
-		IsPlayerTurn = true;
+	else {IsPlayerTurn = true;
 		BattleTurnPlayer();
 		BattleRound += 1;
 	}
-}
-
-//스킬 데이터를 데이터 테이블로 옮김
-void ABattleSystem::SkillDataLoader(){
-	BasicSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_BasicMagic.DT_BasicMagic"));
-	DepenseSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_DepenseMagic.DT_DepenseMagic"));
-	ExplorationSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_ExplorationMagic.DT_ExplorationMagic"));
-	NatureSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_NatureMagic.DT_NatureMagic"));
-	MedecineSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_OrientalMedicine.DT_OrientalMedicine"));
-	SomaticSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_SomaticMagic.DT_SomaticMagic"));
-	MonsterSkillData = LoadObject<UDataTable>(nullptr, TEXT("/Game/BattleMap/DataTable/DT_MonsterSkill.DT_MonsterSkill"));
 }
 
 //스킬 성공 여부 반환
@@ -125,35 +112,8 @@ bool ABattleSystem::GetSkillIsSucceed(){
 
 //스킬 찾기
 void ABattleSystem::SkillSystem(SubjectClass Subject, int RowNum){
-	SkillClass = Subject;
-	
-	FName SkillNum = FName(*(FString::FromInt(RowNum)));
-	static const FString SkillDataContextString(TEXT("SkillTableContext"));
-
-	switch (Subject){
-	case BasicMagic:
-		CurSkill = BasicSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
-		break;
-	case DepenseMagic:
-		CurSkill = DepenseSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
-		break;
-	case ExplorationMagic:
-		CurSkill = ExplorationSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
-		break;
-	case NatureMagic:
-		CurSkill = NatureSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
-		break;
-	case OrientalMedecine:
-		CurSkill = MedecineSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
-		break;
-	case SomaticMagic:
-		CurSkill = SomaticSkillData->FindRow<FSkillInfo>(SkillNum, SkillDataContextString, true);
-		break;
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("Subject Not Found!"))
-		break;
-	}
-
+	CurSkill = LoadSkillSystem.FindPlayerSkill(Subject, RowNum);
+		
 	//스킬 분류에 맞게 함수 나눠두기
 	switch (CurSkill->SkillType) {
 		case Attack:

@@ -19,4 +19,9 @@ private:
 
 public:
 	bool JudgmentSkill(int score);
+
+	UFUNCTION(BlueprintCallable, Category = "Initialize")
+	void SetHpByPlayer(int HpMax);
+	UFUNCTION(BlueprintCallable, Category = "Initialize")
+	void SetMpByPlayer(int MpMax);
 };
