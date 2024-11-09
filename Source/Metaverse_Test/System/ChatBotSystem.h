@@ -30,7 +30,7 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChatBot")
     FString Model;
-    // 프롬프트를 FText로 설정하고 멀티라인 입력을 가능하게 설정
+    
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChatBot")
     FString Prompt;
 
