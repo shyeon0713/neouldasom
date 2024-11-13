@@ -8,6 +8,7 @@
 #include "../Character/MonsterCharacter.h"
 #include "SkillDataTable.h"
 #include "SkillSystem.h"
+#include "SkillEffectSystem.h"
 #include "BattleSystem.generated.h"
 
 UCLASS()
@@ -70,9 +71,16 @@ protected:
 public:
 	//Save CurSkillData
 	SubjectClass SkillClass;
+	//MonsterSkillData
 	FSkillInfo* MonsterSkill;
+	//MonsterSkillPoint 몬스터 스킬 성공 확률
+	int MonsterJudgeLimit;
+	//PlayerSkillData
 	FSkillInfo* CurSkill;
+	//PlayerSkillSubjectPoint 플레이어 과목기능치
 	int CurSubjectPoint;
+
+
 	int DependedDamage;
 	bool IsSkillSucceed;
 	bool GetSkillIsSucceed();
