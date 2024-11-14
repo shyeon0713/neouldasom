@@ -8,6 +8,7 @@
 #include "../Character/MonsterCharacter.h"
 #include "SkillDataTable.h"
 #include "SkillSystem.h"
+#include "SkillEffectSystem.h"
 #include "BattleSystem.generated.h"
 
 UCLASS()
@@ -16,7 +17,7 @@ class METAVERSE_TEST_API ABattleSystem : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	// Constructor
 	ABattleSystem();
 
 protected:
@@ -65,24 +66,21 @@ protected:
 	APlayerCharacter* PlayerEntity;
 	AMonsterCharacter* MonsterEntity;
 
-	//Skill DataTable loader
-	void SkillDataLoader();
-
-	//Save SkillDataTable
-	UDataTable* BasicSkillData;
-	UDataTable* DepenseSkillData;
-	UDataTable* ExplorationSkillData;
-	UDataTable* NatureSkillData;
-	UDataTable* MedecineSkillData;
-	UDataTable* SomaticSkillData;
 	UDataTable* MonsterSkillData;
 
 public:
 	//Save CurSkillData
 	SubjectClass SkillClass;
+	//MonsterSkillData
 	FSkillInfo* MonsterSkill;
+	//MonsterSkillPoint 몬스터 스킬 성공 확률
+	int MonsterJudgeLimit;
+	//PlayerSkillData
 	FSkillInfo* CurSkill;
+	//PlayerSkillSubjectPoint 플레이어 과목기능치
 	int CurSubjectPoint;
+
+
 	int DependedDamage;
 	bool IsSkillSucceed;
 	bool GetSkillIsSucceed();

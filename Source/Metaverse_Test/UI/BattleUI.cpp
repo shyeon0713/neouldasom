@@ -44,6 +44,4 @@ void UBattleUI::ShowPassFailCutIn(bool IsSucceed){
 	else if(!IsSucceed) {
 		Fail->SetVisibility(ESlateVisibility::Visible);
 	}
-
-
 }
