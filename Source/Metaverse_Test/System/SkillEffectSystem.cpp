@@ -5,7 +5,7 @@
 
 // Sets default values
 ASkillEffectSystem::ASkillEffectSystem(){
-    static ConstructorHelpers::FClassFinder<AActor> AttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/AttackEffect.AttackEffect_C")); // 블루프린트 경로
+    static ConstructorHelpers::FClassFinder<AActor> AttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/AttackEffect.AttackEffect")); // 블루프린트 경로
     if (AttackEffectClass.Succeeded()){
         AttackEffect = AttackEffectClass.Class;
     }
@@ -29,7 +29,7 @@ void ASkillEffectSystem::SpawnPlayerAttackEffect(){
         SpawnParams.Owner = this;
 
         // 스폰할 위치와 회전값 설정
-        FVector SpawnLocation = GetActorLocation();
+        FVector SpawnLocation = FVector(350, -240, 218);
         FRotator SpawnRotation = GetActorRotation();
 
         // 월드에서 액터를 스폰

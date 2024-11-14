@@ -49,7 +49,7 @@ protected:
 	//void SetBattleNpcs(APlayerCharacter* Entity1, AMonsterCharacter* Entity2);
 
 	//Set Skills
-	SkillSystem LoadSkillSystem;
+	class SkillSystem LoadSkillSystem;
 
 	//Set Battle turn
 	UFUNCTION(BlueprintCallable, Category = "BattleTurn")
@@ -90,6 +90,8 @@ public:
 	void SkillSystem(SubjectClass Subject, int RowNum);
 
 protected:
+	class ASkillEffectSystem* EffectSystem;
+
 	//플레이어 스킬
 	void AttackSkill();
 	void DepenseSkill();
