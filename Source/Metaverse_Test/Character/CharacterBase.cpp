@@ -27,7 +27,13 @@ int ACharacterBase::GetMaxHP(){return HpLimit;}
 
 int ACharacterBase::GetMP(){return Mp;}
 
+<<<<<<< Updated upstream
 int ACharacterBase::GetMaxMP(){	return MpLimit;}
+=======
+int ACharacterBase::GetHpLimit(){return HpLimit;}
+
+int ACharacterBase::GetMpLimit(){return MpLimit;}
+>>>>>>> Stashed changes
 
 void ACharacterBase::SetHP(int HpMount){
 	Hp += HpMount;

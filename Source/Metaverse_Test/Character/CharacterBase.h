@@ -51,9 +51,16 @@ public:
 	//Get Cur MP
 	UFUNCTION(BlueprintCallable, Category = "GetInfo")
 	int GetMP();
+<<<<<<< Updated upstream
 	//Get Max MP
 	UFUNCTION(BlueprintCallable, Category = "GetInfo")
 	int GetMaxMP();
+=======
+	UFUNCTION(BlueprintCallable, Category = "GetInfo")
+	int GetHpLimit();
+	UFUNCTION(BlueprintCallable, Category = "GetInfo")
+	int GetMpLimit();
+>>>>>>> Stashed changes
 
 	//SetInfo: Function for Set entities fluctuating information
 	UFUNCTION(BlueprintCallable, Category = "SetInfo")
