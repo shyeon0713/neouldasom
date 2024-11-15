@@ -3,6 +3,7 @@
 
 #include "System/SkillEffectSystem.h"
 
+
 // Sets default values
 ASkillEffectSystem::ASkillEffectSystem(){
     static ConstructorHelpers::FClassFinder<AActor> AttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/AttackEffect.AttackEffect")); // 블루프린트 경로
@@ -17,7 +18,7 @@ ASkillEffectSystem::ASkillEffectSystem(){
     if (DepenseEffectClass.Succeeded()){
         DepenseEffect = DepenseEffectClass.Class;
     }
-    static ConstructorHelpers::FClassFinder<AActor> MonsterAttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/MonsterSkillEffect.MonsterSkillEffect_C")); // 블루프린트 경로
+    static ConstructorHelpers::FClassFinder<ACharacter> MonsterAttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/MonsterSkillEffect.MonsterSkillEffect_C")); // 블루프린트 경로
     if (MonsterAttackEffectClass.Succeeded()){
         MonsterAttackEffect = MonsterAttackEffectClass.Class;
     }
@@ -49,4 +50,23 @@ void ASkillEffectSystem::SpawnPlayerDepenseEffect(){
 }
 
 void ASkillEffectSystem::SpawnMonsterAttackEffect() {
+    if (MonsterAttackEffect) {  // 유효한 액터 클래스가 설정된 경우에만 스폰
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.Owner = this;
+
+        // 스폰할 위치와 회전값 설정
+        FVector SpawnLocation = FVector(350,-240,600);
+        FRotator SpawnRotation = GetActorRotation();
+
+        // 월드에서 액터를 스폰
+        AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(MonsterAttackEffect, SpawnLocation, SpawnRotation, SpawnParams);
+
+        if (SpawnedActor) {
+            // 1.5초 뒤에 자동으로 사라지도록 수명 설정
+            SpawnedActor->SetLifeSpan(1.5f);
+        }
+    }
+    else {
+        return;
+    }
 }
