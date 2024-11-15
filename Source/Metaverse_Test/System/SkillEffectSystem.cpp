@@ -18,7 +18,7 @@ ASkillEffectSystem::ASkillEffectSystem(){
     if (DepenseEffectClass.Succeeded()){
         DepenseEffect = DepenseEffectClass.Class;
     }
-    static ConstructorHelpers::FClassFinder<ACharacter> MonsterAttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/MonsterSkillEffect.MonsterSkillEffect_C")); // 블루프린트 경로
+    static ConstructorHelpers::FClassFinder<APaperZDCharacter> MonsterAttackEffectClass(TEXT("/Game/BattleMap/SkillEffect/MonsterSkill.MonsterSkill")); // 블루프린트 경로
     if (MonsterAttackEffectClass.Succeeded()){
         MonsterAttackEffect = MonsterAttackEffectClass.Class;
     }
